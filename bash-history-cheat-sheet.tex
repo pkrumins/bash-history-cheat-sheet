@@ -1,0 +1,266 @@
+% Bash History Cheat Sheet
+%
+% by Peteris Krumins (peter@catonmat.net)
+% http://www.catonmat.net  -  good coders code, great reuse
+%
+% 2008.02.13
+%
+
+\documentclass{article}
+
+\usepackage[left=1.5cm,top=1cm,right=1.5cm,bottom=1cm,nohead,nofoot]{geometry}
+
+\usepackage[pdftex]{hyperref}
+\usepackage{verbatim}
+\hypersetup{pdftitle={Bash History Cheat Sheet}}
+\hypersetup{pdfauthor={Peteris Krumins (peter@catonmat.net)}}
+\hypersetup{pdfkeywords={cheat sheet, bash, shell, bourne again shell, sh, history, command line, unix, linux, cheat sheat, cheet sheet, cheet sheat}}
+\hypersetup{pdfsubject={http://www.catonmat.net - good coders code, great reuse}}
+\hypersetup{colorlinks}
+
+\pagestyle{empty}
+
+% -----------------------------------------------------------------------
+
+\begin{document}
+
+\begin{center}
+\Large Bash History Cheat Sheet
+\end{center}
+
+\vspace{0.4in}
+
+Emacs and Vi history editing keyboard shortcuts:
+
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|p{3.5cm}|p{14cm}|}
+\hline
+\large\textbf{Shortcut} & \large\textbf{Description} \\
+\hline
+\multicolumn{2}{|l|}{\small\it{Emacs Mode Shortcuts:}} \\
+\hline
+\textbf{CTRL-p} & Fetch the previous command from the history list. \\
+\hline
+\textbf{CTRL-n} & Fetch the next command from the history list. \\
+\hline
+\textbf{CTRL-r} & Search history backward (incremental search). \\
+\hline
+\textbf{CTRL-s} & Search history forward (incremental search). \\
+\hline
+\textbf{Meta-p} & Search backward using non-incremental search. \\
+\hline
+\textbf{Meta-n} & Search forward using non-incremental search. \\
+\hline
+\textbf{Meta-\textless} & Move to the first line in the history. \\
+\hline
+\textbf{Meta-\textgreater} & Move to the end of the history list. \\
+\hline
+\multicolumn{2}{|l|}{\small\it{Vi Mode Shortcuts:}} \\
+\hline
+\textbf{k} & Fetch the previous command from the history list. \\
+\hline
+\textbf{j} & Fetch the next command from the history list. \\
+\hline
+\textbf{/\textit{string}} or \textbf{CTRL-r} & Search history backward for a command matching \textit{string}. \\
+\hline
+\textbf{?\textit{string}} or \textbf{CTRL-s} & Search history forward for a command matching \textit{string}. \\
+\hline
+\textbf{n} & Repeat search in the same direction as previous. \\
+\hline
+\textbf{N} & Repeat search in the opposite direction as previous. \\
+\hline
+\textbf{G} & Move to the N-th history line (for example, \textbf{15G}). \\
+\hline
+\end{tabular}
+
+\vspace{0.4in}
+
+History behavior modification via shell variables:
+
+\begin{tabular}{|p{3.5cm}|p{14cm}|}
+\hline
+\large\textbf{Shell Variable} & \large\textbf{Description} \\
+\hline
+\textbf{HISTFILE} & Controls where the history file gets saved. Set to \textbf{/dev/null} not to keep history.\newline Default: $\sim$/.bash\_history. \\
+\hline
+\textbf{HISTFILESIZE} & Controls how many history commands to keep in \textbf{HISTFILE}.\newline Default: 500. \\
+\hline
+\textbf{HISTSIZE} & Controls how many history commands to keep in the history list of current session.\newline Default: 500. \\
+\hline
+\textbf{HISTIGNORE} & Controls which commands to ignore and not save to the history list. The variable takes a list of colon separated patterns. Pattern \textbf{\&} matches the previous history command. \\
+\hline
+\end{tabular}
+
+\vspace{0.4in}
+
+History behavior modification via \textit{shopt} command:
+
+\begin{tabular}{|p{3.5cm}|p{14cm}|}
+\hline
+\large\textbf{shopt option} & \large\textbf{Description} \\
+\hline
+\textbf{histappend} & Setting the variable appends current session history to \textbf{HISTFILE}. Unsetting overwrites the file each time. \\
+\hline
+\textbf{histreedit} & If set, puts a failed history substitution back on the command line for re-editing. \\
+\hline
+\textbf{histverify} & If set, puts the command to be executed after a substitution on command line as if you had typed it. \\
+\hline
+\end{tabular}
+
+\vspace{0.2in}
+
+\textbf{shopt} options can be set by a \texttt{shopt -s option} and can be unset by a \texttt{shopt -u option} shell command.
+
+\vfill
+
+\framebox{\parbox{5in}{
+A cheat sheet by \textbf{Peteris Krumins} (peter@catonmat.net), 2008.
+
+\href{http://www.catonmat.net}{http://www.catonmat.net} - good coders code, great reuse
+
+\vspace{2mm}
+\footnotesize{Released under GNU Free Document License.}}}
+
+%---------------------------------------------------------------------------
+
+\newpage
+
+\mbox{}
+
+History expansion:
+
+\begin{tabular}{|p{3.5cm}|p{14cm}|}
+\hline
+\large\textbf{Shortcut} & \large\textbf{Description} \\
+\hline
+\multicolumn{2}{|l|}{\small\it{Event Designators:}} \\
+\hline
+\textbf{!} & Starts a history substitution. \\
+\hline
+\textbf{!!} & Refers to the last command. \\
+\hline
+\textbf{!n} & Refers to the \textbf{n}-th command line. \\
+\hline
+\textbf{!-n} & Refers to the current command line minus \textbf{n}. \\
+\hline
+\textbf{!string} & Refers to the most recent command starting with \textbf{string}. \\
+\hline
+\textbf{!?string?} & Refers to the most recent command containing \textbf{string} (the ending ? is optional). \\
+\hline
+\textbf{\^{}string1\^{}string2\^{}} & Quick substitution. Repeats the last command, replacing \textbf{string1} with \textbf{string2}. \\
+\hline
+\textbf{!\#} & Refers to the entire command line typed so far. \\
+\hline
+\multicolumn{2}{|l|}{\small\it{Word Designators (word designators follow the event designators, separated by a colon):}} \\
+\hline
+\textbf{0} & The zeroth (first) word in a line (usually command name). \\
+\hline
+\textbf{n} & The \textbf{n}-th word in a line. \\
+\hline
+\textbf{\^{}} & The first argument (the second word) in a line. \\
+\hline
+\textbf{\$} & The last argument in a line. \\
+\hline
+\textbf{\%} & The word matched by the most recent ?string? search. \\
+\hline
+\textbf{x-y} & A range of words from \textbf{x} to \textbf{y} (\textbf{-y} is synonymous with \textbf{0-y}). \\
+\hline
+\textbf{*} & All word but the zeroth. \\
+\hline
+\textbf{x*} & Synonymous with \textbf{x-\$}. \\
+\hline
+\textbf{x-} & The words from \textbf{x} to the second to last word. \\
+\hline
+\multicolumn{2}{|l|}{\small\it{Modifiers (modifiers follow word designators, separated by a colon):}} \\
+\hline
+\textbf{h} & Removes a trailing pathname component, leaving the head. \\
+\hline
+\textbf{t} & Removes all leading pathname components, leaving the tail. \\
+\hline
+\textbf{r} & Removes a trailing suffix of the form .xxx, leaving the basename. \\
+\hline
+\textbf{e} & Removes all but the trailing suffix. \\
+\hline
+\textbf{p} & Prints the resulting command but does not execute it. \\
+\hline
+\textbf{q} & Quotes the substituted words, escaping further substitutions. \\
+\hline
+\textbf{x} & Quotes the substituted words, breaking them into words at blanks and newlines. \\
+\hline
+\textbf{s/old/new/} & Substitutes \textbf{new} for \textbf{old}. \\
+\hline
+\textbf{\&} & Repeats the previous substitution. \\
+\hline
+\textbf{g} & Causes \textbf{s/old/new/} or \textbf{\&} to be applied over the entire event line. \\
+\hline
+\end{tabular}
+
+\vspace{0.4in}
+History expansion examples:
+
+\begin{tabular}{p{10cm}|p{7.5cm}}
+\begin{verbatim}
+$ echo a b c d e    (executes `echo ab c d e`)
+a b c d e
+$ echo !!:3-$       (executes `echo c d e`)
+c d e
+$ echo !-2:*:q      (executes `echo 'a b c d e'`)
+a b c d e
+$ echo !-3:1:2:4:x  (executes `echo 'a' 'b' 'd'`)
+a b d
+$ echo !-4:1-3:s/a/foo/:s/b/bar/:s/c/baz/
+(executes `echo foo bar baz`)
+foo bar baz
+\end{verbatim}
+& 
+\begin{verbatim}
+$ tar -xzf package-x.y.z.tgz
+...
+$ cd !-1:$:r  (exec's `cd package-x.y.z`)
+package-x.y.z $
+
+$ ls -a /tmp
+file1  file2  file3 ...
+$ ^-a^-l^     (exec's `ls -l /tmp`)
+-rw-------  1  user  user  file1
+...
+\end{verbatim}
+\end{tabular}
+
+\begin{comment}
+\texttt{\parbox{3.3cm}{%
+\$ echo a b c d e \\
+a b c d e \\
+\$ echo !!:3-\$ \\
+c d e \\
+\$ echo !-2:*:q \\
+'a b c d e'
+}} &
+\texttt{\parbox{4.8cm}{%
+\$ tar -xzf package-x.y.z.tgz \\
+... \\
+\$ cd !-1:\$:r \\
+package-x.y.z \$
+}} &
+\texttt{\parbox{5.8cm}{%
+\$ ls -a /tmp \\
+file1   file2   file3  ...\\
+\$ \^{}-a\^{}-l\^{} \\
+ls -l /tmp \\
+-rw-------  1  user  user  file1 \\
+... 
+}} \\
+\end{comment}
+
+\vfill
+
+\framebox{\parbox{5in}{
+A cheat sheet by \textbf{Peteris Krumins} (peter@catonmat.net), 2008.
+
+\href{http://www.catonmat.net}{http://www.catonmat.net} - good coders code, great reuse
+
+\vspace{2mm}
+\footnotesize{Released under GNU Free Document License.}}}
+
+\end{document}
+
